@@ -1,0 +1,103 @@
+# -------------------
+# Compiled Object files
+# -------------------
+*.o
+*.obj
+*.ko
+*.elf
+*.slo
+*.lo
+
+# -------------------
+# Precompiled Headers
+# -------------------
+*.gch
+*.pch
+
+# -------------------
+# Libraries
+# -------------------
+*.lib
+*.a
+*.la
+*.lai
+*.lo
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# -------------------
+# Executables
+# -------------------
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# -------------------
+# Debugging & Core Dumps
+# -------------------
+*.dSYM/
+*.su
+*.idb
+*.pdb
+*.map
+*.exp
+core
+core.*
+
+# -------------------
+# Build Systems (CMake, Autotools, etc.)
+# -------------------
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+CTestTestfile.cmake
+cpack_options.cmake
+
+# Make (Ignore generated Makefiles if you use configure, 
+# but KEEP your handwritten Makefiles)
+# Makefile.in
+# .dep/
+
+# Common Build Directories
+build/
+bin/
+dist/
+out/
+
+# -------------------
+# IDE & Editor Specific
+# -------------------
+# VS Code
+.vscode/
+
+# JetBrains (CLion)
+.idea/
+cmake-build-*/
+
+# Vim
+*.swp
+*.swo
+
+# Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Eclipse
+.project
+.cproject
+.settings/
+
+# -------------------
+# OS Generated Files
+# -------------------
+.DS_Store
+Thumbs.db
