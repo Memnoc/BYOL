@@ -31,3 +31,8 @@ float length = sqrt(p.x * p.x + p.y * p.y);
 ## Strings
 
 In C, strings are represented by the pointer type `char*`. Under the hood, they are arrays of characters, where the final character is a special character called the **null terminator**. String literals in C can be represented by simply putting text between quotation marks: "Hello, C".
+
+## Loops: for and while
+
+**While** repeatedly execute a block until some condition becomes false.
+**For** is the classic that requires **initializer**, the **condition** and an **incrementer**. They are more compact and thus more widely used than the while loops.
