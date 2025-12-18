@@ -27,15 +27,16 @@ void add_history(char *unused) {}
 
 int main(int argc, char *argv[]) {
   /* INFO: REPL starts */
-  puts("Lispy Version 0.0.0.1");
+  puts("Starspy Version 0.0.0.1");
+  puts("Press arrows -> <-  to edit your text\n");
   puts("Press Ctrl+c to Exit\n");
 
   while (1) {
 
-    char *input = readline("lispy> ");
+    char *input = readline("starspy> ");
     add_history(input);
 
-    printf("Echo => %s\n", input);
+    printf("Starspy says => %s\n", input);
     free(input);
   }
   return 0;
