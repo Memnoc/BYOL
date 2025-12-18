@@ -7,10 +7,16 @@
 
 ### Run the files
 
-The book suggests this compile command
+The book suggests this compile command:
 
 ```bash
 gcc -std=c99 -Wall main.c -o main
+```
+
+Once you start including new headers, add the `-ledit` flag
+
+```bash
+gcc -std=c99 -Wall main.c -ledit -o main
 ```
 
 I use GDB on Linux
