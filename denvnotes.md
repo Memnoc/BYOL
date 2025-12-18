@@ -5,11 +5,13 @@
 ### Run the files
 
 The book suggests this compile command
+
 ```bash
 gcc -std=c99 -Wall main.c -o main
 ```
 
 I use GDB on Linux
+
 ```bash
 gcc -ggdb main.c -o main
 gdb -q ./main
@@ -17,3 +19,5 @@ disass main
 set disassembly-flavor intel
 ```
 
+The book makes use of a REPL (read-print-evaluate-loop) system we get to create from scratch!
+For the first iteration, it remains something that prompts the user and echoes the answer, the plans are to later extend it to something more like a LISP REPL.
