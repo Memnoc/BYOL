@@ -36,3 +36,9 @@ In C, strings are represented by the pointer type `char*`. Under the hood, they 
 
 **While** repeatedly execute a block until some condition becomes false.
 **For** is the classic that requires **initializer**, the **condition** and an **incrementer**. They are more compact and thus more widely used than the while loops.
+
+## Chomsky's observations on natural languages
+
+"Natural languages are built up of recursive and repeated substructures" - and this is very true for programming languages as well.
+The consequence of this observation by Chomsky is important. It means that although there are an infinite number of different things that can be said, or written down in a particular language, it is still possible to process and understand all of them with a finite number of re-write rules. The name given to a set of re-write rules is a grammar.
+[Wiki on Chomsky Hierachy](https://en.wikipedia.org/wiki/Chomsky_hierarchy)
