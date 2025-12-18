@@ -5,6 +5,9 @@
 `stdlib.h` provides access to `free()` which is important to de-allocate memory once allocated.
 `editline` is something that provides us with access to `editline` functions, `readlin` and `add_history`.
 
+**Preprocessors** is how you call the header files - it's a portability thing, so it makes my code compile in somebody else's machine.
+You can also use (like with this book) the preprocessor to detect which operating system the code is being compiled on, and to use this to emit different code!
+
 ### Run the files
 
 The book suggests this compile command:
