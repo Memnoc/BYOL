@@ -42,3 +42,9 @@ In C, strings are represented by the pointer type `char*`. Under the hood, they 
 "Natural languages are built up of recursive and repeated substructures" - and this is very true for programming languages as well.
 The consequence of this observation by Chomsky is important. It means that although there are an infinite number of different things that can be said, or written down in a particular language, it is still possible to process and understand all of them with a finite number of re-write rules. The name given to a set of re-write rules is a grammar.
 [Wiki on Chomsky Hierachy](https://en.wikipedia.org/wiki/Chomsky_hierarchy)
+
+## MPC - Parser Combinator
+
+The book's author gears us towards using a library of his invention called `mpc`. It's a parser combinator that let's you easily define a language grammar, something we need to have in order to describe our own Lisp.
+The library is still supported and has a huge number of stars and forks, this is reassuring :)
+[orangeduck/mcp](https://github.com/orangeduck/mpc)
