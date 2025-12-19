@@ -48,3 +48,30 @@ The consequence of this observation by Chomsky is important. It means that altho
 The book's author gears us towards using a library of his invention called `mpc`. It's a parser combinator that let's you easily define a language grammar, something we need to have in order to describe our own Lisp.
 The library is still supported and has a huge number of stars and forks, this is reassuring :)
 [orangeduck/mcp](https://github.com/orangeduck/mpc)
+
+## The lanugage of Shiba Inu
+
+The book explains how to use the `mpc` library with an example: an attempt to decode the language of [Shiba Inu](https://www.buildyourownlisp.com/chapter5_languages#parser_combinators)
+The criteria are as follows:
+
+› An Adjective is either "wow", "many", "so" or "such".
+› A Noun is either "lisp", "language", "c", "book" or "build".
+› A Phrase is an Adjective followed by a Noun.
+› A Doge is zero or more Phrases.
+
+```C
+/* Build a parser 'Adjective' to recognize descriptions'*/
+mpc_parser_t* Adjective = mpc_or(4,
+  mpc_sym("wow"), mpc_sym("many"),
+  mpc_sym("so"), mpc_sym("such")
+);
+
+
+/* Build a parser 'Noun' to recognize things */
+mpc_parser_t* Noun = mpc_or(5,
+  mpc_sym("lisp"), mpc_sym("language"),
+  mpc_sym("book"), mpc_sym("build"),
+  mpc_sym("c")
+);
+
+```
