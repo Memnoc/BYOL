@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* If we are compiling on Windows compile these functions */
+/* Functions for Windows compilation */
 #ifdef _WIN32
 #include <string.h>
 
 static char buffer[2048];
 
-/* Custom reading line function */
+/* Custom readline function */
 char *readline(char *prompt) {
   fputs(prompt, stdout);
   fgets(buffer, 2048, stdin);
@@ -20,7 +20,7 @@ char *readline(char *prompt) {
 /* Custom add_history function */
 void add_history(char *unused) {}
 
-/* Otherwise include the editline headers */
+/* Include editline headers for Linux and MacOS */
 #else
 #include <editline/readline.h>
 #endif
