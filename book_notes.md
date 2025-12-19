@@ -75,3 +75,48 @@ mpc_parser_t* Noun = mpc_or(5,
 );
 
 ```
+
+To create a phrase, the library has a dedicated function called `mpc_and` which literally means a functions that takes two arguments (it actually takes more but these two are the ones we care about for now) - Noun and Adjective:
+
+```C
+mpc_parser_t* Phrase = mpc_and(2, mpcf_strfold, Adjective, Noun, free);
+```
+
+Notice that `mpcf_strfold` serves the purposed of defining how results are joined together.
+
+```C
+mpc_parser_t* Doge = mpc_many(mpcf_strfold, Phrase);
+```
+
+In the example above, we define the Doge language using the `mpc_many` functions to specify which parser are required (zero or more) and we pass again `mpcf_strfold` to specify how the results are joined together.
+
+Effectively, by declaring `Doge` the way we did, we are declaring a **parser that looks for zero or more occurrences of another parser**. Because our `Doge` parser accepts inputs of any length, this creates an _ipso facto_ **infinite** language.
+For a more granular approach, the [mpc respository](http://github.com/orangeduck/mpc) is something I want to visit in the future.
+
+Here is a more detailed example of a grammar in `mcp` with a little more natural form.
+
+```C
+mpc_parser_t* Adjective = mpc_new("adjective");
+mpc_parser_t* Noun      = mpc_new("noun");
+mpc_parser_t* Phrase    = mpc_new("phrase");
+mpc_parser_t* Doge      = mpc_new("doge");
+
+mpca_lang(MPCA_LANG_DEFAULT,
+  "                                           \
+    adjective : \"wow\" | \"many\"            \
+              |  \"so\" | \"such\";           \
+    noun      : \"lisp\" | \"language\"       \
+              | \"book\" | \"build\" | \"c\"; \
+    phrase    : <adjective> <noun>;           \
+    doge      : <phrase>*;                    \
+  ",
+  Adjective, Noun, Phrase, Doge);
+
+/* Do some parsing here... */
+
+mpc_cleanup(4, Adjective, Noun, Phrase, Doge);
+```
+
+```
+
+```
