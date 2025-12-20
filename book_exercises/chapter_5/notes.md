@@ -34,3 +34,7 @@ Valid Doge language strings:
 2. Why are there back slashes \ in front of the quote marks " in the grammar?
 
 - Two purposes: a) to make the string of characters more readable, since it's very long, and b) when found in instances like `\"wow\"` serves the purpose of escaping the character, since the grammar itself uses quotes to denote literals `"wow"` which means "match the text wow" - to put those grammar quotes into a C string, you escape them.
+
+3. Why are there back slashes \ at the end of the line in the grammar?
+
+- The backlash-newline is a line continuation mechanism. Without it, you cannot write a string literal across multiple lines in C source code. They also serve a readability purpose in this case, but they must be there for technical reasons.
