@@ -38,3 +38,11 @@ Valid Doge language strings:
 3. Why are there back slashes \ at the end of the line in the grammar?
 
 - The backlash-newline is a line continuation mechanism. Without it, you cannot write a string literal across multiple lines in C source code. They also serve a readability purpose in this case, but they must be there for technical reasons.
+
+4. Describe textually a grammar for decimal numbers such as 0.01 or 52.221.
+
+```bash
+digit   : '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+dot     : '.';
+decimal : <digit>+ <dot> <digit>+;
+```
