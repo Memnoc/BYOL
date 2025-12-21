@@ -60,3 +60,15 @@ domain    : "com" | "org" | "net" | "io";
 subdomain : "www." | "";
 url       : <protocol> <subdomain> <letter>+ <dot> <domain>;
 ```
+
+6. Describe textually a grammar for simple English sentences such as the cat sat on the mat.
+
+"The cat sat on the mat."
+
+```bash
+determiner  : "the" | "a";
+noun        : "cat" | "dog" | "mat" | "hat";
+verb        : "sat" | "walked" | "jumped";
+preposition : "on" | "under" | "near";
+sentence: <determiner>* <noun> <verb> <prepositions> <determiner> <noun>;
+```
