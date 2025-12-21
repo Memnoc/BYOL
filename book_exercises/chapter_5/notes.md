@@ -54,6 +54,7 @@ http://www.buildyourownlisp.com
 
 ```bash
 protocol  : "http://" | "https://";
+dot: '.';
 letter    : 'a' | 'b' | 'c' | ... | 'z';
 domain    : "com" | "org" | "net" | "io";
 subdomain : "www." | "";
