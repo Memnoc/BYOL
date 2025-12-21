@@ -46,3 +46,16 @@ digit   : '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
 dot     : '.';
 decimal : <digit>+ <dot> <digit>+;
 ```
+
+5. Describe textually a grammar for web URLs such as http://www.buildyourownlisp.com.
+
+Starting from a URL of this shape:
+http://www.buildyourownlisp.com
+
+```bash
+protocol  : "http://" | "https://";
+letter    : 'a' | 'b' | 'c' | ... | 'z';
+domain    : "com" | "org" | "net" | "io";
+subdomain : "www." | "";
+url       : <protocol> <subdomain> <letter>+ <dot> <domain>;
+```
