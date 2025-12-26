@@ -117,6 +117,42 @@ mpca_lang(MPCA_LANG_DEFAULT,
 mpc_cleanup(4, Adjective, Noun, Phrase, Doge);
 ```
 
+## Polish Notation
+
+To use `mpc`, the book guides me into implementing a simple grammar that resembles a mathematical subset of Lisp. A simple notation for arithmetic where the operator comes before the operands.
+
+```bash
+1 + 2 + 3 is + 1 2 6
+6 + (2 * 9) is + 6 (* 2 9)
+(10 * 2) / (4 + 2) is / (* 10 2) (+ 4 2)
 ```
 
+We need to work out a grammar that describes exactly this notation.
+Personal observation: this is exactly like Common Lisp.
+Secondly, we can say that _a program is an operator followed by one or more expressions_ where _an expression_ is either a number, or, in parentheses, an operator followed by one or more expressions.
+
+More formally:
+
+```
+Program -> the start of input, and Operator, one or more Expression, and the end of input.
+Expression -> Either a number or (, and Operator, one or more Expression, and an ).
+Operator ->  '+', '-', '*', or '/'.
+Number -> an optional '-' and or more characters between 0 and 9.
+```
+
+### Regular Expressions
+
+A way to write grammar for small sections of text such as words or numbers. We kind of need this at this point because we have no way to express things like: the end of an input, optional characters, or range of characters.
+The regular expressions rules we need are:
+
+```
+. -> Any character is required
+a -> The character 'a' is required
+[abcdef] -> Any character set 'abcdef' is required
+[a-f] -> Any character in the range 'a' to 'f' is required
+a? -> The character 'a' is optional
+a* -> Zero or more of the character 'a' are required
+a+ -> One or more of the character 'a' are  required
+^ -> The start of input  is required
+$ -> The end of input is required
 ```
