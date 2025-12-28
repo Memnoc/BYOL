@@ -36,8 +36,7 @@ int main(int argc, char *argv[]) {
   mpc_parser_t *Starspy = mpc_new("starspy");
 
   /* Define them with the following Language */
-  mpca_lang(MPCA_LANG_DEFAULT,
-            "                                                     \
+  mpca_lang(MPCA_LANG_DEFAULT, "                                           \
     number   : /-?[0-9]+/ ;                             \
     operator : '+' | '-' | '*' | '/' ;                  \
     expr     : <number> | '(' <operator> <expr>+ ')' ;  \
@@ -46,7 +45,7 @@ int main(int argc, char *argv[]) {
             Number, Operator, Expr, Starspy);
 
   /* INFO: REPL starts */
-  puts("Starspy Version 0.0.0.1");
+  puts("Starspy Version 0.0.0.0.2");
   puts("Press arrows -> <-  to edit your text\n");
   puts("Press Ctrl+c to Exit\n");
 

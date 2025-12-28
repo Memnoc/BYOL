@@ -198,3 +198,28 @@ if(mpc_parse("<stdin>", input, Starspy, &r)) {
   mpc_err_delete(r.error);
 }
 ```
+
+The result is something able to parse expressions like:
+
+```bash
+starspy> + 5 (* 2 2)
+regex
+  operator|char:1:1 '+'
+  expr|number|regex:1:3 '5'
+  expr|>
+    char:1:5 '('
+    operator|char:1:6 '*'
+    expr|number|regex:1:8 '2'
+    expr|number|regex:1:10 '2'
+    char:1:11 ')'
+  regex
+```
+
+1. We call the `mpc_parse` and we pass our parser Starspy, and the input from the user `input`.
+2. The result of parsing is copied into the variable `r` and it returns `1` on success and `0` on failure. Important to notice, we pass the address of r `&r` so just the pointer and not a copy of `r`. This becomes relevant because `mpc_parse()` receives a pointer and thus can modify the original variable:
+
+```C
+int mpc_parse(const char *filename, const char *string, mpc_parser_t *p, mpc_result_t *r) {}
+```
+
+3. On success the internal structures are copied into `r` in the field `output` and it's printed out using `mpc_ast_print` and subsequently deleted using `mpc_ast_delete`. Conversely, in case of an error, we copy that into `r` and in the field `error` and we print is using `mpc_err_print` and delete it using `mpc_err_delete` `
