@@ -156,3 +156,45 @@ a+ -> One or more of the character 'a' are  required
 ^ -> The start of input  is required
 $ -> The end of input is required
 ```
+
+## Practical implementation of the Polish Notation
+
+What follows is a practical implementation of the Polish Notation grammar:
+
+```C
+  mpc_parser_t *Number = mpc_new("number");
+  mpc_parser_t *Operator = mpc_new("operator");
+  mpc_parser_t *Expr = mpc_new("expr");
+  mpc_parser_t *Starspy = mpc_new("starspy");
+
+  /* Define them with the following Language */
+  mpca_lang(MPCA_LANG_DEFAULT,
+            "                                                     \
+    number   : /-?[0-9]+/ ;                             \
+    operator : '+' | '-' | '*' | '/' ;                  \
+    expr     : <number> | '(' <operator> <expr>+ ')' ;  \
+    lispy    : /^/ <operator> <expr>+ /$/ ;             \
+  ",
+            Number, Operator, Expr, Starspy);
+```
+
+Basically, the implementation creates some parser using `mpc` and make sure it cleans it right before main ends:
+
+```C
+mpc_cleanup(4, Number, Operator, Expr, Starspy);
+```
+
+To then be able to use the parser while gathering user input, we pass them in the while loop:
+
+```C
+mpc_result_t r;
+if(mpc_parse("<stdin>", input, Starspy, &r)) {
+  /* On Success Print the AST */
+  mpc_ast_print(r.output);
+  mp_ast_delete(r.output);
+} else {
+  /* Otherwise Print the Error */
+  mpc_err_print(r.error);
+  mpc_err_delete(r.error);
+}
+```
