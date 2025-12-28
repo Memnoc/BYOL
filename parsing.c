@@ -22,7 +22,7 @@ char *readline(char *prompt) {
 /* Custom add_history function */
 void add_history(char *unused) {}
 
-/* Include editline headers for Linux and MacOS */
+/* Headers for Linux and MacOS */
 #else
 #include <editline/readline.h>
 #endif
@@ -35,7 +35,6 @@ int main(int argc, char *argv[]) {
   mpc_parser_t *Expr = mpc_new("expr");
   mpc_parser_t *Starspy = mpc_new("starspy");
 
-  /* Define them with the following Language */
   mpca_lang(MPCA_LANG_DEFAULT, "                                           \
     number   : /-?[0-9]+/ ;                             \
     operator : '+' | '-' | '*' | '/' ;                  \
@@ -53,6 +52,7 @@ int main(int argc, char *argv[]) {
     char *input = readline("starspy> ");
     add_history(input);
 
+    // WARN: attempt to parse the user input
     mpc_result_t r;
     if (mpc_parse("<stdin>", input, Starspy, &r)) {
       mpc_ast_print(r.output);
