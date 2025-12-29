@@ -1,4 +1,5 @@
 #include "mpc.h"
+#include <strings.h>
 
 /*
 ** State Type
@@ -4079,12 +4080,16 @@ static mpc_parser_t *mpca_grammar_find_parser(char *x, mpca_grammar_st_t *st) {
 
       p = va_arg(*st->va, mpc_parser_t *);
 
-      /* FIX: moving pointer validation immediately after var_arg and before any
-       * use */
+      /* FIX: could not find and exact match */
       if (p == NULL) {
         char msg[1024] = "Available parsers: ";
         for (int j = 0; j < st->parsers_num; j++) {
           if (st->parsers[j] && st->parsers[j]->name) {
+            // FIX: make a comparison ignoring cases
+            if (strcasecmp(st->parsers[j]->name, x) == 0) {
+              return mpc_failf("Parser '<%s>' not found. Did you mean '%s' ?",
+                               x, st->parsers[j]->name);
+            }
             strcat(msg, "'");
             strcat(msg, st->parsers[j]->name);
             strcat(msg, "' ");
@@ -4357,6 +4362,9 @@ static mpc_err_t *mpca_lang_st(mpc_input_t *i, mpca_grammar_st_t *st) {
     if (r.output) {
       mpc_parser_t *err_parser = (mpc_parser_t *)r.output;
       e = mpc_err_fail(i, err_parser->data.fail.m);
+      // Preventing use-after-free bug by moving the error to the heap
+      e = mpc_err_export(i, e);
+
       mpc_delete(err_parser);
     } else {
       e = NULL;

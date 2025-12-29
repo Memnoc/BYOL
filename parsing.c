@@ -47,8 +47,8 @@ int main(int argc, char *argv[]) {
   /* FIX: Error handling */
   if (err != NULL) {
     mpc_err_print(err);
-    exit(1);
     mpc_err_delete(err);
+    exit(1);
   }
 
   /* INFO: REPL starts */
