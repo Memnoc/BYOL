@@ -4079,15 +4079,25 @@ static mpc_parser_t *mpca_grammar_find_parser(char *x, mpca_grammar_st_t *st) {
 
       p = va_arg(*st->va, mpc_parser_t *);
 
+      /* FIX: moving pointer validation immediately after var_arg and before any
+       * use */
+      if (p == NULL) {
+        char msg[1024] = "Available parsers: ";
+        for (int j = 0; j < st->parsers_num; j++) {
+          if (st->parsers[j] && st->parsers[j]->name) {
+            strcat(msg, "'");
+            strcat(msg, st->parsers[j]->name);
+            strcat(msg, "' ");
+          }
+        }
+        return mpc_failf("Parser '<%s>' not found. %s!", x, msg);
+      }
       st->parsers_num++;
       st->parsers =
           realloc(st->parsers, sizeof(mpc_parser_t *) * st->parsers_num);
       st->parsers[st->parsers_num - 1] = p;
 
-      if (p == NULL || p->name == NULL) {
-        return mpc_failf("Unknown Parser '%s'!", x);
-      }
-      if (p->name && strcmp(p->name, x) == 0) {
+      if (strcmp(p->name, x) == 0) {
         return p;
       }
     }
@@ -4244,6 +4254,26 @@ static mpc_val_t *mpca_stmt_list_apply_to(mpc_val_t *x, void *s) {
   while (*stmts) {
     stmt = *stmts;
     left = mpca_grammar_find_parser(stmt->ident, st);
+    /* FIX: Check if the parser found is actually a Failure object */
+    if (left->type == MPC_TYPE_FAIL) {
+      free(stmt->ident);
+      free(stmt->name);
+      mpc_soft_delete(stmt->grammar);
+      free(stmt);
+
+      stmts++;
+      while (*stmts) {
+        stmt = *stmts;
+        free(stmt->ident);
+        free(stmt->name);
+        mpc_soft_delete(stmt->grammar);
+        free(stmt);
+        stmts++;
+      }
+      free(x);
+
+      return left;
+    }
     if (st->flags & MPCA_LANG_PREDICTIVE) {
       stmt->grammar = mpc_predictive(stmt->grammar);
     }
@@ -4323,7 +4353,14 @@ static mpc_err_t *mpca_lang_st(mpc_input_t *i, mpca_grammar_st_t *st) {
   if (!mpc_parse_input(i, Lang, &r)) {
     e = r.error;
   } else {
-    e = NULL;
+    /* FIX: Check if the output contains a returned Failure parser */
+    if (r.output) {
+      mpc_parser_t *err_parser = (mpc_parser_t *)r.output;
+      e = mpc_err_fail(i, err_parser->data.fail.m);
+      mpc_delete(err_parser);
+    } else {
+      e = NULL;
+    }
   }
 
   mpc_cleanup(6, Lang, Stmt, Grammar, Term, Factor, Base);
@@ -4375,7 +4412,7 @@ mpc_err_t *mpca_lang_pipe(int flags, FILE *p, ...) {
   return err;
 }
 
-mpc_err_t *mpca_lang(int flags, const char *language, ...) {
+mpc_err_t *mpca_lang_internal(int flags, const char *language, ...) {
 
   mpca_grammar_st_t st;
   mpc_input_t *i;

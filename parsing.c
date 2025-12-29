@@ -22,7 +22,7 @@ char *readline(char *prompt) {
 /* Custom add_history function */
 void add_history(char *unused) {}
 
-/* Headers for Linux and MacOS */
+/* Include editline headers for Linux and MacOS */
 #else
 #include <editline/readline.h>
 #endif
@@ -33,15 +33,23 @@ int main(int argc, char *argv[]) {
   mpc_parser_t *Number = mpc_new("number");
   mpc_parser_t *Operator = mpc_new("operator");
   mpc_parser_t *Expr = mpc_new("expr");
-  mpc_parser_t *Starspy = mpc_new("starspy");
+  mpc_parser_t *Starspy = mpc_new("Starspy");
 
-  mpca_lang(MPCA_LANG_DEFAULT, "                                           \
+  mpc_err_t *err =
+      mpca_lang(MPCA_LANG_DEFAULT, "                                           \
     number   : /-?[0-9]+/ ;                             \
     operator : '+' | '-' | '*' | '/' ;                  \
     expr     : <number> | '(' <operator> <expr>+ ')' ;  \
     starspy    : /^/ <operator> <expr>+ /$/ ;             \
   ",
-            Number, Operator, Expr, Starspy);
+                Number, Operator, Expr, Starspy);
+
+  /* FIX: Error handling */
+  if (err != NULL) {
+    mpc_err_print(err);
+    exit(1);
+    mpc_err_delete(err);
+  }
 
   /* INFO: REPL starts */
   puts("Starspy Version 0.0.0.0.2");
