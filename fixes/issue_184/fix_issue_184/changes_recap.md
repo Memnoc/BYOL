@@ -36,3 +36,21 @@ New file — test for case-insensitive parser name suggestion
 **Makefile**
 
 Added `-Wno-variadic-macros` flag
+
+## Possible Commit naming
+
+```bash
+git add mpc.c mpc.h tests/grammar.c tests/test.c tests/issue_184.c
+git commit -m "Fix segfault on parser name mismatch in mpca_lang
+```
+
+- Add NULL sentinel via macro wrapper for mpca_lang
+- Track va_list exhaustion to prevent reading garbage pointers
+- Capture first error message for proper reporting
+- Fail fast at grammar definition time instead of parse time
+- Add test for issue #184 (case-insensitive parser suggestion)
+- Update test_missingrule to expect new fail-fast behavior"
+
+```
+
+```
