@@ -37,7 +37,7 @@ I have explored other possible approaches: counting parameters, re-implementing 
 ```
 
 `mpc.c`
-This is the main library file. All the functions, structs and golbal variables with their implementation is found here.
+This is the main library file. All the functions, structs and global variables with their implementation is found here.
 
 This fix:
 
