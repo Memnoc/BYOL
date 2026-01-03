@@ -6,7 +6,7 @@ This is the header file of the mpc library. Contains mainly function signatures,
 This fix:
 
 ```C
-/* FIX: adding sentinel NULL macro to enforce the fix in mpc.c */
+/* adding sentinel NULL macro to enforce the fix in mpc.c */
 mpc_err_t *mpca_lang_internal(int flags, const char *language, ...);
 #define mpca_lang(flags, language, ...)                                        \
   mpca_lang_internal(flags, language, __VA_ARGS__, NULL)
@@ -33,5 +33,47 @@ DEBUG: va_arg call #6 returned 0x100000000, looking for 'Lispy'     // ->  unmap
 I have explored other possible approaches: counting parameters, re-implementing `mcpa_lang` with a fixed amount of parameters,, using the [builder pattern](https://stackoverflow.com/questions/17604811/builder-pattern-in-c), and many more impractical ideas. So in the end, the easiest way was the Sentinel `NULL` check.
 
 ```
+
+```
+
+`mpc.c`
+This is the main library file. All the functions, structs and golbal variables with their implementation is found here.
+
+This fix:
+
+```C
+/* adding tracking fields */
+
+typedef struct {
+  va_list *va;
+  int parsers_num;
+  mpc_parser_t **parsers;
+  int flags;
+  int va_exhausted;
+  char *error_msg;
+} mpca_grammar_st_t;
+```
+
+- The `error_msg` field it's used to store the error we pass to the wrapper functions later on in the program.
+- The `va_exhausted` field int is used as boolean (logically) to track `va_arg` return:
+
+```bash
+Call 1: looking for "number"    → found, va_exhausted still 0
+Call 2: looking for "operator"  → found, va_exhausted still 0
+Call 3: looking for "expr"      → found, va_exhausted still 0
+Call 4: looking for "Starspy"   → not found, hit NULL, set va_exhausted = 1
+Call 5: looking for "rule"      → va_exhausted is 1, skip va_arg entirely
+
+```
+
+```
+
+
+
+
+
+
+
+
 
 ```
