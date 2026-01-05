@@ -66,14 +66,103 @@ Call 5: looking for "rule"      → va_exhausted is 1, skip va_arg entirely
 
 ```
 
+This fix:
+High level, the function, given a parser name `x`(like `number` or `Lispy`), finds and returns the corresponding parser from the valid list.
+
+Two main cases I have found:
+
+- Numeric reference (`<0>`, `<1>`) - e.g. If is_number -> finds parser by position
+- Named reference (`<number>`, `<Lispy>`) - e.g. else search already retrieved parsers, and if `va_exhausted`, build error message and do so while(1): keep retrieving from `va_arg` until found `NULL`
+
+```C
+
+static mpc_parser_t *mpca_grammar_find_parser(char *x, mpca_grammar_st_t *st) {
+  int i;
+  mpc_parser_t *p;
+
+  if (is_number(x)) {
+    i = strtol(x, NULL, 10);
+    while (st->parsers_num <= i) {
+      if (st->va_exhausted) {
+        return mpc_failf("No Parser in position %i! Only supplied %i Parsers!", i, st->parsers_num);
+      }
+      st->parsers_num++;
+      st->parsers = realloc(st->parsers, sizeof(mpc_parser_t*) * st->parsers_num);
+      st->parsers[st->parsers_num-1] = va_arg(*st->va, mpc_parser_t*);
+      if (st->parsers[st->parsers_num-1] == NULL) {
+        st->va_exhausted = 1;
+        return mpc_failf("No Parser in position %i! Only supplied %i Parsers!", i, st->parsers_num);
+      }
+    }
+    return st->parsers[st->parsers_num-1];
+  } else {
+    for (i = 0; i < st->parsers_num; i++) {
+      mpc_parser_t *q = st->parsers[i];
+      if (q == NULL) { return mpc_failf("Unknown Parser '%s'!", x); }
+      if (q->name && strcmp(q->name, x) == 0) { return q; }
+    }
+
+    if (st->va_exhausted) {
+      char msg[1024];
+      strcpy(msg, "");
+      for (i = 0; i < st->parsers_num; i++) {
+        if (st->parsers[i] && st->parsers[i]->name) {
+          if (mpc_strcasecmp(st->parsers[i]->name, x) == 0) {
+            return mpc_failf("Unknown Parser '%s'! Did you mean '%s'?", x, st->parsers[i]->name);
+          }
+          if (strlen(msg) + strlen(st->parsers[i]->name) + 5 < 1024) {
+            strcat(msg, "'"); strcat(msg, st->parsers[i]->name); strcat(msg, "' ");
+          }
+        }
+      }
+      if (strlen(msg) == 0) { return mpc_failf("Unknown Parser '%s'!", x); }
+      return mpc_failf("Unknown Parser '%s'! Available: %s", x, msg);
+    }
+
+    while (1) {
+      p = va_arg(*st->va, mpc_parser_t*);
+      if (p == NULL) {
+        int j;
+        char msg[1024];
+        /* Tracking */
+        st->va_exhausted = 1;
+        strcpy(msg, "");
+        for (j = 0; j < st->parsers_num; j++) {
+          if (st->parsers[j] && st->parsers[j]->name) {
+            if (mpc_strcasecmp(st->parsers[j]->name, x) == 0) {
+              /*  capturing error */
+              if(st->error_msg == NULL) {
+                st->error_msg = malloc(strlen(x) + strlen(st->parsers[j]->name) + 50);
+                sprintf(st->error_msg, "Unknown Parser '%s'! Did you mean '%s'?", x, st->parsers[j]->name);
+              }
+              return mpc_failf("Unknown Parser '%s'! Did you mean '%s'?", x, st->parsers[j]->name);
+            }
+            if (strlen(msg) + strlen(st->parsers[j]->name) + 5 < 1024) {
+              strcat(msg, "'"); strcat(msg, st->parsers[j]->name); strcat(msg, "' ");
+            }
+          }
+        }
+        if (st->error_msg == NULL) {
+          if (strlen(msg) ==0) {
+            st->error_msg = malloc(strlen(x) + 30);
+            sprintf(st->error_msg, "Unknown Parser '%s'!", x);
+          } else {
+            st->error_msg = malloc(strlen(x) + strlen(msg) + 40);
+            sprintf(st->error_msg, "Unknown Parser '%s'! Available: %s", x, msg);
+          }
+        }
+        if (strlen(msg) == 0) { return mpc_failf("Unknown Parser '%s'!", x); }
+        return mpc_failf("Unknown Parser '%s'! Available: %s", x, msg);
+      }
+      st->parsers_num++;
+      st->parsers = realloc(st->parsers, sizeof(mpc_parser_t*) * st->parsers_num);
+      st->parsers[st->parsers_num-1] = p;
+      if (strcmp(p->name, x) == 0) { return p; }
+    }
+  }
+}
 ```
 
-
-
-
-
-
-
-
+```
 
 ```
