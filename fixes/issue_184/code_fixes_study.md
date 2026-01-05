@@ -163,6 +163,6 @@ static mpc_parser_t *mpca_grammar_find_parser(char *x, mpca_grammar_st_t *st) {
 }
 ```
 
-```
+## Initialization sites
 
-```
+Five functions initialise `mpca_grammar_st_t` and call the grammar parser. They all follow the same pattern. We can use `mpca_lang_internal` as primary example and because it's the one my macro calls anyway.
