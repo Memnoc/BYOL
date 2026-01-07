@@ -166,3 +166,13 @@ static mpc_parser_t *mpca_grammar_find_parser(char *x, mpca_grammar_st_t *st) {
 ## Initialization sites
 
 Five functions initialise `mpca_grammar_st_t` and call the grammar parser. They all follow the same pattern. We can use `mpca_lang_internal` as primary example and because it's the one my macro calls anyway.
+
+The pattern is pretty much the same in all of them:
+
+```text
+1. Declare struct and variables
+2. Initialize all struct fields (including new ones)
+3. Call mpca_lang_st to parse grammar
+4. Check st.error_msg and surface error if present  ← FIX
+5. Clean up and return
+```
