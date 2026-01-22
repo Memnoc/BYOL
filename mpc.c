@@ -69,6 +69,7 @@ typedef struct {
 } mpc_mem_t;
 
 typedef struct {
+
   int type;
   char *filename;
   mpc_state_t state;
@@ -89,10 +90,12 @@ typedef struct {
   size_t mem_index;
   char mem_full[MPC_INPUT_MEM_NUM];
   mpc_mem_t mem[MPC_INPUT_MEM_NUM];
+
 } mpc_input_t;
 
 static mpc_input_t *mpc_input_new_string(const char *filename,
                                          const char *string) {
+
   mpc_input_t *i = malloc(sizeof(mpc_input_t));
 
   i->filename = malloc(strlen(filename) + 1);
@@ -122,6 +125,7 @@ static mpc_input_t *mpc_input_new_string(const char *filename,
 
 static mpc_input_t *mpc_input_new_nstring(const char *filename,
                                           const char *string, size_t length) {
+
   mpc_input_t *i = malloc(sizeof(mpc_input_t));
 
   i->filename = malloc(strlen(filename) + 1);
