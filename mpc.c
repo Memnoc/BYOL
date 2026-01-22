@@ -1,4 +1,5 @@
 #include "mpc.h"
+#include <stdint.h>
 #include <strings.h>
 
 /*

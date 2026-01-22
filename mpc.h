@@ -11,7 +11,8 @@
 #ifndef MPC_H_
 #define MPC_H_
 
-#include <cstdint>
+// #include <cstdint>
+#include <stdint.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
