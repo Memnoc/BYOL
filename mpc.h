@@ -1,15 +1,17 @@
 /*
-** mpc - Micro Parser Combinator library for C
-**
-** https://github.com/orangeduck/mpc
-**
-** Daniel Holden - contact@daniel-holden.com
-** Licensed under BSD3
-*/
+ * Copyright (c) 2026 Daniel Holden. All Rights Reserved.
+ ** mpc - Micro Parser Combinator library for C
+ **
+ ** https://github.com/orangeduck/mpc
+ **
+ ** Daniel Holden - contact@daniel-holden.com
+ ** Licensed under BSD3
+ */
 
-#ifndef mpc_h
-#define mpc_h
+#ifndef MPC_H_
+#define MPC_H_
 
+#include <cstdint>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -27,9 +29,9 @@ extern "C" {
 */
 
 typedef struct {
-  long pos;
-  long row;
-  long col;
+  int64_t pos;
+  int64_t row;
+  int64_t col;
   int term;
 } mpc_state_t;
 
