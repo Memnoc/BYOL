@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "mpc.h"
+/* test */
 
 /* Functions for Windows compilation */
 #ifdef _WIN32
