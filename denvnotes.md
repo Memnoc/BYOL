@@ -19,7 +19,7 @@ gcc -std=c99 -Wall main.c -o main
 Once you start including new headers, add the `-ledit` flag
 
 ```bash
-gcc -std=c99 -Wall main.c -ledit -o main
+gcc -std=c99 -Wall  -g parsing.c mpc.c -o parsing -ledit -lm
 ```
 
 I use GDB on Linux
