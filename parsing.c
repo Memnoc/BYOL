@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     number   : /-?[0-9]+/ ;                             \
     operator : '+' | '-' | '*' | '/' ;                  \
     expr     : <number> | '(' <operator> <expr>+ ')' ;  \
-    starspy    : /^/ <operator> <expr>+ /$/ ;             \
+    Starspy    : /^/ <operator> <expr>+ /$/ ;             \
   ",
                 Number, Operator, Expr, Starspy);
 
