@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "lib/linenoise.h"
 #include "mpc.h"
 /* test */
 
@@ -25,7 +26,6 @@ void add_history(char *unused) {}
 
 /* Include editline headers for Linux and MacOS */
 #else
-#include <editline/readline.h>
 #endif
 
 int main(int argc, char *argv[]) {
@@ -58,8 +58,9 @@ int main(int argc, char *argv[]) {
   puts("Press Ctrl+c to Exit\n");
 
   while (1) {
-    char *input = readline("starspy> ");
-    add_history(input);
+    char *input = linenoise("starspy> ");
+    if (input == NULL) break;
+    // add_history(input);
 
     // WARN: attempt to parse the user input
     mpc_result_t r;
@@ -70,7 +71,7 @@ int main(int argc, char *argv[]) {
       mpc_err_print(r.error);
       mpc_err_delete(r.error);
     }
-    free(input);
+    linenoiseFree(input);
   }
 
   mpc_cleanup(4, Number, Operator, Expr, Starspy);
