@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
   mpc_parser_t *Expr = mpc_new("expr");
   mpc_parser_t *Starspy = mpc_new("Starspy");
 
-  mpc_err_t *err = mpca_lang(MPCA_LANG_DEFAULT, "                        \
+  mpc_err_t *err = mpca_lang(MPCA_LANG_DEFAULT, "           \
     number   : /-?[0-9]+/ ;                                 \
     operator : '+' | '-' | '*' | '/' ;                      \
     expr     : <number> | '(' <operator> <expr>+ ')' ;      \
@@ -44,9 +44,17 @@ int main(int argc, char *argv[]) {
     if (input == NULL)
       break;
 
-    if (linenoiseHistoryAdd(input) == 0) {
-      fprintf(stderr, "Could not set history length\n");
-      exit(1);
+    // Just for fun, we can try to distinguish between errors
+    // and line duplication
+    static char *last_input = NULL;
+
+    if (last_input == NULL || strcmp(last_input, input) != 0) {
+      if (linenoiseHistoryAdd(input) == 0) {
+        fprintf(stderr, "Could not add to history (memory issue)\n");
+        exit(1);
+      }
+      free(last_input);
+      last_input = strdup(input);
     }
 
     // WARN: attempt to parse the user input
