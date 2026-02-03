@@ -28,7 +28,13 @@ void add_history(char *unused) {}
 #else
 #endif
 
+#define HISTORY_LEN 1024
+
 int main(int argc, char *argv[]) {
+
+  // int linenoiseHistoryAdd(const char *line);
+  // int linenoiseHistorySave(const char *filename);
+  // int linenoiseHistoryLoad(const char *filename);
 
   /* NOTE:  Create Some Parsers */
   mpc_parser_t *Number = mpc_new("number");
@@ -36,14 +42,13 @@ int main(int argc, char *argv[]) {
   mpc_parser_t *Expr = mpc_new("expr");
   mpc_parser_t *Starspy = mpc_new("Starspy");
 
-  mpc_err_t *err =
-      mpca_lang(MPCA_LANG_DEFAULT, "                                           \
-    number   : /-?[0-9]+/ ;                             \
-    operator : '+' | '-' | '*' | '/' ;                  \
-    expr     : <number> | '(' <operator> <expr>+ ')' ;  \
-    Starspy    : /^/ <operator> <expr>+ /$/ ;             \
+  mpc_err_t *err = mpca_lang(MPCA_LANG_DEFAULT, "                        \
+    number   : /-?[0-9]+/ ;                                 \
+    operator : '+' | '-' | '*' | '/' ;                      \
+    expr     : <number> | '(' <operator> <expr>+ ')' ;      \
+    Starspy    : /^/ <operator> <expr>+ /$/ ;               \
   ",
-                Number, Operator, Expr, Starspy);
+                             Number, Operator, Expr, Starspy);
 
   /* FIX: Error handling */
   if (err != NULL) {
@@ -57,10 +62,20 @@ int main(int argc, char *argv[]) {
   puts("Press arrows -> <-  to edit your text\n");
   puts("Press Ctrl+c to Exit\n");
 
+  if (linenoiseHistorySetMaxLen(HISTORY_LEN) == 0) {
+    fprintf(stderr, "Could not set history length\n");
+    exit(1);
+  }
+
   while (1) {
     char *input = linenoise("starspy> ");
-    if (input == NULL) break;
-    // add_history(input);
+    if (input == NULL)
+      break;
+
+    if (linenoiseHistoryAdd(input) == 0) {
+      fprintf(stderr, "Could not set history length\n");
+      exit(1);
+    }
 
     // WARN: attempt to parse the user input
     mpc_result_t r;
