@@ -3,38 +3,10 @@
 
 #include "lib/linenoise.h"
 #include "mpc.h"
-/* test */
-
-/* Functions for Windows compilation */
-#ifdef _WIN32
-#include <string.h>
-
-static char buffer[2048];
-
-/* Custom readline function */
-char *readline(char *prompt) {
-  fputs(prompt, stdout);
-  fgets(buffer, 2048, stdin);
-  char *cpy = malloc(strlen(buffer) + 1);
-  strcpy(cpy, buffer);
-  cpy[strlen(cpy) - 1] = '\0';
-  return cpy;
-}
-
-/* Custom add_history function */
-void add_history(char *unused) {}
-
-/* Include editline headers for Linux and MacOS */
-#else
-#endif
 
 #define HISTORY_LEN 1024
 
 int main(int argc, char *argv[]) {
-
-  // int linenoiseHistoryAdd(const char *line);
-  // int linenoiseHistorySave(const char *filename);
-  // int linenoiseHistoryLoad(const char *filename);
 
   /* NOTE:  Create Some Parsers */
   mpc_parser_t *Number = mpc_new("number");
