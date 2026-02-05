@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
   }
 
   /* INFO: REPL starts */
-  puts("Starspy Version 0.0.0.0.3");
+  puts("Starspy Version 0.1.3");
   puts("Press arrows -> <-  to edit your text\n");
   puts("Press Ctrl+c to Exit\n");
 
