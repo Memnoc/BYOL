@@ -46,9 +46,8 @@ This is not necessary, as `<editline/readhline.h>` has a wrapper for history.
 `#include <editline/history.h>
 `
 
-
-
 ### Useful Links
+
 [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
 [Linenoise](https://github.com/antirez/linenoise)
 [Chomsky Hierarchy](https://en.wikipedia.org/wiki/Chomsky_hierarchy)
@@ -58,6 +57,15 @@ This is not necessary, as `<editline/readhline.h>` has a wrapper for history.
 [Regex101](https://regex101.com/)
 [Binary Trees in C](https://www.youtube.com/watch?v=R-RtvJKffq0)
 
+### Not relevant, but info to set Python in Neovim
 
+LazyExtras installed:
 
+- neotest-python  neotest
+- nvim-dap-python  <leader>dPc  <leader>dPt  nvim-dap
+- venv-selector.nvim  VenvSelect  <leader>cv  python
 
+Mason installed:
+
+- Pyright
+- Ruff
