@@ -42,6 +42,22 @@ For the first iteration, it remains something that prompts the user and echoes t
 
 ### Omitted code from the book
 
-This is not necessary, as `<editline/reahdline.h>` has a wrapper for history.
+This is not necessary, as `<editline/readhline.h>` has a wrapper for history.
 `#include <editline/history.h>
 `
+
+
+
+### Useful Links
+[AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
+[Linenoise](https://github.com/antirez/linenoise)
+[Chomsky Hierarchy](https://en.wikipedia.org/wiki/Chomsky_hierarchy)
+[Macchine, Linguaggi e la tesi di Church-Turing](https://www.youtube.com/@esadecimale/search?query=macchine)
+[Turing Machine](https://www.youtube.com/watch?v=g63Kr2J2j-0)
+[Computing Machinery and Intelligence](https://www.youtube.com/watch?v=WcDyP36haHE)
+[Regex101](https://regex101.com/)
+[Binary Trees in C](https://www.youtube.com/watch?v=R-RtvJKffq0)
+
+
+
+
