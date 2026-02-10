@@ -60,12 +60,10 @@ This is not necessary, as `<editline/readhline.h>` has a wrapper for history.
 ### Not relevant, but info to set Python in Neovim
 
 LazyExtras installed:
-
 - neotest-python  neotest
 - nvim-dap-python  <leader>dPc  <leader>dPt  nvim-dap
 - venv-selector.nvim  VenvSelect  <leader>cv  python
 
 Mason installed:
-
 - Pyright
 - Ruff
