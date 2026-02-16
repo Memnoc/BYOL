@@ -28,6 +28,12 @@ Now that we have Linenoise, should be:
 gcc -Wall -g parsing.c mpc.c lib/linenoise.c -o parsing -ledit -lm
 ```
 
+Notice that on Apple machines (silicon or not) the command becomes:
+
+```bash
+gcc -Wall -g parsing.c mpc.c lib/linenoise.c -o parsing -lm
+```
+
 I use GDB on Linux
 
 ```bash
